@@ -7,8 +7,6 @@ body {
     padding: 30px 25px;
     background: white;
 }
-
-
 h1.login-title {
     color: #666;
     margin: 0px auto 25px;
@@ -40,7 +38,7 @@ h1.login-title {
     cursor: pointer;
 }
 .link {
-    color: rgba(7, 1, 15, 0.349);
+    color: #666;
     font-size: 15px;
     text-align: center;
     margin-bottom: 0px;
