@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php
+    header("X-Frame-Options: SAMEORIGIN");
+?>
+
     <meta charset="utf-8">
     <title>Dashboard - Client area</title>
     <link rel="stylesheet" href="style.css" />
@@ -66,7 +70,7 @@
 
     // Check if the user is logged in
     if (!isset($_SESSION['username'])) {
-        header("Location: login.php"); // Redirect to login page if not logged in
+        header("Location: index2.php"); // Redirect to login page if not logged in
         exit();
     }
 

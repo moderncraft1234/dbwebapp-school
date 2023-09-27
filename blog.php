@@ -22,6 +22,10 @@ function fetchComments($post_id) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<?php
+    header("X-Frame-Options: SAMEORIGIN");
+?>
+
     <meta charset="UTF-8">
     <title>Add Blog Post</title>
     <style>

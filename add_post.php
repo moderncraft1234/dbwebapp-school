@@ -94,6 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                <meta charset="UTF-8">
                                <title>Add Blog Post</title>
                                </head>
+<?php
+            header("X-Frame-Options: SAMEORIGIN");
+?>
+
                                <body>
                                <h1>Add Blog Post</h1>
                                <form method="POST" action="add_post.php">

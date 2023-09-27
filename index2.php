@@ -3,12 +3,8 @@
 <head>
 <?php
      header("X-Frame-Options: SAMEORIGIN");
-     session_start();
-if(!isset($_SESSION["username"])) {
-    header("Location: index2.php");
-    exit();
-}
 ?>
+
 
     <meta charset="UTF-8">
     <title>Homepage</title>
@@ -63,7 +59,7 @@ if(!isset($_SESSION["username"])) {
 </head>
 <body>
     <div class="taskbar">
-        <p>Logged in as <?php echo $_SESSION['username']; ?></p>
+        <p>Not logged in</p>
         <a href="login.php">Login</a>
         <a href="registration.php">Register</a>
         <a href="logout.php">Logout</a>
@@ -77,11 +73,9 @@ if(!isset($_SESSION["username"])) {
 
     </div>
 
-
-
     <div class="content-container">
         <h1>Welcome to We like to blog</h1>
-        <p>This project was inspired by <a href="https://github.com/moderncraft1234" >moderncraft1234</a></p>
+        <p>You can log in to use our blog and customize your account.</p>
     </div>
 </body>
 </html>
