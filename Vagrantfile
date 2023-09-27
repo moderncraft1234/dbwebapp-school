@@ -72,13 +72,22 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
-     apt-get update
-     apt-get install -y apache2
-     apt-get install -y docker
-     apt-get install -y php
-     systemctl enable --now docker
+     
+     
+
+sudo apt update
+sudo apt upgrade -y
+
+
+sudo apt install -y docker.io
+
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo apt install -y php php-cli php-fpm php-json php-common php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-json git
+
      docker pull mysql:latest
      docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mysql -d mysql:latest
+     docker pull phpmyadmin
      docker run --name phpmyadmin -d --link mysql:db -p 8080:80 phpmyadmin
      apt-get install git -y
      git clone https://github.com/moderncraft1234/villager-os
