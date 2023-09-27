@@ -59,7 +59,9 @@
         <a href="login.php">Login</a>
         <a href="register.php">Register</a>
         <a href="logout.php">Logout</a>
-        <a href="dashboard.php">My Account</a> <!-- Fixed the closing tag -->
+        <a href="dashboard.php">My Account</a>
+        <a href="blog.php">Blog</a>
+
     </div>
 
     <div class="svg-container">

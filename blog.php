@@ -19,86 +19,112 @@ function fetchComments($post_id) {
     return mysqli_query($conn, $query);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
+    <meta charset="UTF-8">
+    <title>Add Blog Post</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+        }
+
+        .toolbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toolbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s;
+        }
+
+        .toolbar a:hover {
+            color: #007bff;
         }
 
         h1 {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            margin: 0;
-        }
-
-        p {
-            margin: 20px 0;
-        }
-
-        h2 {
-            font-size: 24px;
+            text-align: center;
+            color: #333;
             margin-top: 20px;
-        }
-
-        p {
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        h3 {
-            font-size: 20px;
-        }
-
-        ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
+            animation: fadeIn 1s ease-in-out;
         }
 
         form {
-            margin-top: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            animation: slideIn 1s ease-in-out;
         }
 
+        input[type="text"],
         textarea {
             width: 100%;
             padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         input[type="submit"] {
-            background-color: #333;
+            background-color: #007bff;
             color: #fff;
-            padding: 10px 20px;
             border: none;
+            padding: 10px 20px;
             cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
         }
 
         a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
             text-decoration: none;
-            color: #333;
-            margin-right: 10px;
         }
 
-        a:hover {
-            text-decoration: underline;
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-10%);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
     </style>
-    <meta charset="UTF-8">
-    <title>Blog</title>
 </head>
 <body>
-    <h1>Blog</h1>
-            <h2>logged in as <?php echo $_SESSION['username']; ?> </h2>
+    <div class="toolbar">
+        <a href="index.php">Home</a>
+        <a href="add_post.php">Add Post</a>
+            <p>logged in as <?php echo $_SESSION['username']; ?> </p>
+    </div>
+
     <?php
     // Inside your while loop where you display blog posts
     while ($row = mysqli_fetch_assoc($result)) {
@@ -123,8 +149,7 @@ function fetchComments($post_id) {
     }
 
     ?>
+<p>add posts to fill the page</p>
 
-    <a href="add_post.php">Add a new post</a>
-    <a href="index.php">back to index</a>
 </body>
 </html>
