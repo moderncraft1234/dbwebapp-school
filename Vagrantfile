@@ -98,7 +98,6 @@ Vagrant.configure("2") do |config|
      cd villager-os
      sudo cp -v grub /etc/default/grub
      sudo grub-mkconfig -o /boot/grub/grub.cfg
-     reboot -h now
      systemctl restart docker
      docker restart mysql
      docker restart phpmyadmin
@@ -110,6 +109,5 @@ Vagrant.configure("2") do |config|
      rm stunnel.conf
      nohup ./startup.sh &
      cd ..
-     clear
    SHELL
 end
