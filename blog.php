@@ -4,8 +4,8 @@
 include("auth_session.php");
 
 // Create a database connection
-$conn = mysqli_connect("192.168.4.123", "root","mysql","blogs");
-
+//$conn = mysqli_connect("192.168.4.123", "root","mysql","blogs");
+require("blogdb.php")
 
 
 // Fetch blog posts from the database
