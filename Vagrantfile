@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  config.vm.network "public_network"
+  #config.vm.network "public_network"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -110,13 +110,14 @@ sudo apt install -y php php-cli php-fpm php-json php-common php-mysql php-zip ph
      systemctl restart docker
      docker restart mysql
      docker restart phpmyadmin
+     cd ..
      git clone https://github.com/moderncraft1234/dbwebapp-school
      cd dbwebapp-school
      rm Vagrantfile
      rm build.sh
      chmod +x startup.sh
      rm stunnel.conf
-     nohup ./startup.sh &
+     
      cd ..
    SHELL
 end
