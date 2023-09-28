@@ -117,7 +117,7 @@ sudo apt install -y php php-cli php-fpm php-json php-common php-mysql php-zip ph
      rm build.sh
      chmod +x startup.sh
      rm stunnel.conf
-     
-     cd ..
+     rm db.sql
+     echo "run ./startup on the vm to start the webserver acsess vm shell with vagrant ssh dbwebapp"
    SHELL
 end
