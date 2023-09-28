@@ -59,7 +59,7 @@
     // Enter your host name, database username, password, and database name.
     // If you have not set a database password on localhost, then set it to an empty string.
     //$con = mysqli_connect("192.168.4.123", "root", "mysql", "LoginSystem", 3306);
-    require("db.php")
+    require("db.php");
 
     // Check connection
     if (!$con) {

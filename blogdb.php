@@ -5,10 +5,10 @@ $password = "mysql"; // Change this to your MySQL password
 $database = "blogs"; // Change this to your MySQL database name
 
 // Create a database connection
-$conn = mysqli_connect($host, $username, $password, $database);
+$con = mysqli_connect($host, $username, $password, $database);
 
 // Check the connection
-if (!$conn) {
+if (!$con) {
     die("Connection failed: " . mysqli_connect_error());
 }
 ?>
