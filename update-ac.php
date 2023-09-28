@@ -82,47 +82,54 @@
     </style>
 </head>
 <body>
-    <?php
-    // Database connection code
+<?php
+// Database connection code
 $conn = mysqli_connect("127.0.0.1", "root", "mysql", "LoginSystem", 3306);
-//require("db.php");
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-    // Start the session
-    session_start();
+// Start the session
+session_start();
 
-    // Check if the user is logged in
-    if (!isset($_SESSION['username'])) {
-        header("Location: login.php"); // Redirect to login page if not logged in
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); // Redirect to login page if not logged in
+    exit();
+}
+
+// Get the logged-in user's username
+$username = $_SESSION['username'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the new username and email from the form
+    $newUsername = $_POST['new_username'];
+    $newEmail = $_POST['new_email'];
+
+    // Use prepared statements to update the user's information in the database
+    $updateSql = "UPDATE users SET username = ?, email = ? WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $updateSql);
+
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, "sss", $newUsername, $newEmail, $username);
+
+    if (mysqli_stmt_execute($stmt)) {
+        // Update successful
+        $_SESSION['username'] = $newUsername; // Update the session username
+        header("Location: dashboard.php"); // Redirect to account info page
         exit();
+    } else {
+        // Update failed
+        echo "Error: " . mysqli_error($conn);
     }
 
-    // Get the logged-in user's username
-    $username = $_SESSION['username'];
+    // Close the statement
+    mysqli_stmt_close($stmt);
+}
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Get the new username and email from the form
-        $newUsername = $_POST['new_username'];
-        $newEmail = $_POST['new_email'];
+mysqli_close($conn);
+?>
 
-        // Update the user's information in the database
-        $updateSql = "UPDATE users SET username = '$newUsername', email = '$newEmail' WHERE username = '$username'";
-
-        if (mysqli_query($conn, $updateSql)) {
-            // Update successful
-            $_SESSION['username'] = $newUsername; // Update the session username
-            header("Location: dashboard.php"); // Redirect to account info page
-            exit();
-        } else {
-            // Update failed
-            echo "Error: " . mysqli_error($conn);
-        }
-    }
-
-    mysqli_close($conn);
-    ?>
 
     <div class="form">
         <h1>Update Account Info</h1>
