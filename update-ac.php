@@ -84,8 +84,8 @@
 <body>
     <?php
     // Database connection code
-//$conn = mysqli_connect("192.168.4.123", "root", "mysql", "LoginSystem", 3306);
-require("db.php");
+$conn = mysqli_connect("127.0.0.1", "root", "mysql", "LoginSystem", 3306);
+//require("db.php");
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }

@@ -1,6 +1,6 @@
 <?php
 // Include your database connection
-$conn = mysqli_connect("192.168.4.123", "root", "mysql", "blogs");
+$conn = mysqli_connect("127.0.0.1", "root", "mysql", "blogs");
 // Include auth session
 include("auth_session.php");
 
