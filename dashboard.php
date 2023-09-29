@@ -1,10 +1,67 @@
+<?php
+// Start the session
+session_start();
+
+// Enter your host name, database username, password, and database name.
+// If you have not set a database password on localhost, then set it to an empty string.
+//$con = mysqli_connect("192.168.4.123", "root", "mysql", "LoginSystem", 3306);
+require("db.php");
+
+// Check connection
+if (!$con) {
+    die("Failed to connect to MySQL: " . mysqli_connect_error());
+}
+
+// Start the session
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: index2.php"); // Redirect to the login page if not logged in
+    exit();
+}
+
+// Get the logged-in user's username
+$username = $_SESSION['username'];
+
+// Query to retrieve user information using a prepared statement
+$sql = "SELECT id, username, email FROM users WHERE username = ?";
+$stmt = mysqli_prepare($con, $sql);
+
+// Bind parameters
+mysqli_stmt_bind_param($stmt, "s", $username);
+
+// Execute the prepared statement
+if (mysqli_stmt_execute($stmt)) {
+    // Bind the result
+    mysqli_stmt_bind_result($stmt, $dbId, $dbUsername, $dbEmail);
+
+    // Fetch the user's information
+    if (mysqli_stmt_fetch($stmt)) {
+        // Output user information
+        $row['id'] = $dbId;
+        $row['username'] = $dbUsername;
+        $row['email'] = $dbEmail;
+    } else {
+        die("User not found.");
+    }
+
+    // Close the statement
+    mysqli_stmt_close($stmt);
+} else {
+    die("Error: " . mysqli_error($con));
+}
+
+// Close the database connection
+mysqli_close($con);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <?php
     header("X-Frame-Options: SAMEORIGIN");
 ?>
-
     <meta charset="utf-8">
     <title>Dashboard - Client area</title>
     <link rel="stylesheet" href="style.css" />
@@ -55,47 +112,12 @@
     </style>
 </head>
 <body>
-    <?php
-    // Enter your host name, database username, password, and database name.
-    // If you have not set a database password on localhost, then set it to an empty string.
-    //$con = mysqli_connect("192.168.4.123", "root", "mysql", "LoginSystem", 3306);
-    require("db.php");
-
-    // Check connection
-    if (!$con) {
-        die("Failed to connect to MySQL: " . mysqli_connect_error());
-    }
-
-    // Start the session
-    session_start();
-
-    // Check if the user is logged in
-    if (!isset($_SESSION['username'])) {
-        header("Location: index2.php"); // Redirect to login page if not logged in
-        exit();
-    }
-
-    // Get the logged-in user's username
-    $username = $_SESSION['username'];
-
-    // Query to retrieve user information
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $result = mysqli_query($con, $sql);
-
-    if (!$result) {
-        die("Error: " . mysqli_error($con));
-    }
-
-    // Fetch the user's information
-    $row = mysqli_fetch_assoc($result);
-    ?>
-
     <main>
         <section class="account-info">
             <h2>Your Account Information</h2>
+            <p><strong>Account ID:</strong> <?php echo $row['id']; ?> </p>
             <p><strong>Username:</strong> <?php echo $row['username']; ?></p>
             <p><strong>Email:</strong> <?php echo $row['email']; ?></p>
-            <!-- Add more user details as needed -->
         </section>
     </main>
     <div class="form">
@@ -103,7 +125,7 @@
         <p>Welcome to account settings</p>
         <p><a href="logout.php">Logout</a></p>
         <p><a href="blog.php">Blog</a></p>
-         <p><a href="update-ac.php">update acount info</a></p>
+         <p><a href="update-ac.php">Update Account Info</a></p>
          <p><a href="index.php">HomePage</a></p>
     </div>
 </body>
