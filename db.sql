@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 27, 2023 at 02:23 PM
+-- Generation Time: Oct 02, 2023 at 12:20 PM
 -- Server version: 8.1.0
--- PHP Version: 8.2.10
+-- PHP Version: 8.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,6 +37,14 @@ CREATE TABLE `comments` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `post_id`, `name`, `comment`, `created_at`) VALUES
+(290, 17, '<script>alert(1)</script>', 'a', '2023-10-02 09:49:15'),
+(291, 18, 'jan', '\'@@version--', '2023-10-02 09:57:25');
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +57,16 @@ CREATE TABLE `posts` (
   `content` text NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `title`, `content`, `created_at`) VALUES
+(17, 'a', 'a', '2023-10-02 09:49:10'),
+(18, '&#039;@@version--', 'aaa', '2023-10-02 09:56:58'),
+(19, '&#039;', '&#039;', '2023-10-02 11:41:04'),
+(20, '\'--', '\'\'', '2023-10-02 11:55:10');
 
 --
 -- Indexes for dumped tables
@@ -74,47 +92,13 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=288;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- Database: `blogs2`
---
-CREATE DATABASE IF NOT EXISTS `blogs2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `blogs2`;
---
--- Database: `custom`
---
-CREATE DATABASE IF NOT EXISTS `custom` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `custom`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `acounts`
---
-
-CREATE TABLE `acounts` (
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `table_name`
---
-
-CREATE TABLE `table_name` (
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- Database: `LoginSystem`
 --
@@ -136,6 +120,15 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `create_datetime`) VALUES
+(300, 'john', 'eugene@email.com', '386a85d8c88778b00b1355608363c7e3078857f3e9633cfd0802d3bf1c0b5b83', '2023-10-02 11:02:33'),
+(797, 'jan', 'jangert@candia.com', '386a85d8c88778b00b1355608363c7e3078857f3e9633cfd0802d3bf1c0b5b83', '2023-10-02 10:36:46'),
+(798, 'josh', 'email@mail.com', '386a85d8c88778b00b1355608363c7e3078857f3e9633cfd0802d3bf1c0b5b83', '2023-10-02 10:37:01');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -153,7 +146,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=751;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=799;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
