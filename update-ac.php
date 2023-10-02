@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Update Account Info</title>
     <style>
-        body {
+          body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             margin: 0;
@@ -106,42 +106,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newUsername = $_POST['new_username'];
     $newEmail = $_POST['new_email'];
 
-    // Use prepared statements to update the user's information in the database
-    $updateSql = "UPDATE users SET username = ?, email = ? WHERE username = ?";
-    $stmt = mysqli_prepare($conn, $updateSql);
+    // Check if the new username or email is already in use
+    $checkUsernameQuery = "SELECT * FROM users WHERE username = '$newUsername' AND username != '$username' LIMIT 1";
+    $checkEmailQuery = "SELECT * FROM users WHERE email = '$newEmail' AND username != '$username' LIMIT 1";
+    $usernameResult = mysqli_query($conn, $checkUsernameQuery);
+    $emailResult = mysqli_query($conn, $checkEmailQuery);
 
-    // Bind parameters
-    mysqli_stmt_bind_param($stmt, "sss", $newUsername, $newEmail, $username);
-
-    if (mysqli_stmt_execute($stmt)) {
-        // Update successful
-        $_SESSION['username'] = $newUsername; // Update the session username
-        header("Location: dashboard.php"); // Redirect to account info page
-        exit();
+    if (mysqli_num_rows($usernameResult) > 0) {
+        // New username is already in use
+        echo "<p>username already in use please use a different username</p>";
+    } elseif (mysqli_num_rows($emailResult) > 0) {
+        // New email is already in use
+        echo "<p>email already in use please use a different email</p>";
     } else {
-        // Update failed
-        echo "Error: " . mysqli_error($conn);
-    }
+        // Use prepared statements to update the user's information in the database
+        $updateSql = "UPDATE users SET username = ?, email = ? WHERE username = ?";
+        $stmt = mysqli_prepare($conn, $updateSql);
 
-    // Close the statement
-    mysqli_stmt_close($stmt);
+        // Bind parameters
+        mysqli_stmt_bind_param($stmt, "sss", $newUsername, $newEmail, $username);
+
+        if (mysqli_stmt_execute($stmt)) {
+            // Update successful
+            $_SESSION['username'] = $newUsername; // Update the session username
+            header("Location: dashboard.php"); // Redirect to account info page
+            exit();
+        } else {
+            // Update failed
+            echo "Error: " . mysqli_error($conn);
+        }
+
+        // Close the statement
+        mysqli_stmt_close($stmt);
+    }
 }
 
 mysqli_close($conn);
 ?>
 
+<div class="form">
+    <h1>Update Account Info</h1>
+    <form method="post" action="update-ac.php">
+        <label for="new_username">New Username:</label>
+        <input type="text" id="new_username" name="new_username" required><br><br>
 
-    <div class="form">
-        <h1>Update Account Info</h1>
-        <form method="post" action="update-ac.php">
-            <label for="new_username">New Username:</label>
-            <input type="text" id="new_username" name="new_username" required><br><br>
+        <label for="new_email">New Email:</label>
+        <input type="email" id="new_email" name="new_email" required><br><br>
 
-            <label for="new_email">New Email:</label>
-            <input type="email" id="new_email" name="new_email" required><br><br>
-
-            <input type="submit" value="Update">
-        </form>
-    </div>
+        <input type="submit" value="Update">
+    </form>
+</div>
 </body>
 </html>
+

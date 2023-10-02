@@ -63,7 +63,7 @@ if(!isset($_SESSION["username"])) {
 </head>
 <body>
     <div class="taskbar">
-        <p>Logged in as <?php echo $_SESSION['username']; ?></p>
+    <p>Logged in as  <?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?></p>
         <a href="login.php">Login</a>
         <a href="registration.php">Register</a>
         <a href="logout.php">Logout</a>

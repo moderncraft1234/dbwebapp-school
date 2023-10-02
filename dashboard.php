@@ -116,12 +116,13 @@ mysqli_close($con);
         <section class="account-info">
             <h2>Your Account Information</h2>
             <p><strong>Account ID:</strong> <?php echo $row['id']; ?> </p>
-            <p><strong>Username:</strong> <?php echo $row['username']; ?></p>
+                <p><strong>Username:</strong>  <?php echo htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); ?></p>
             <p><strong>Email:</strong> <?php echo $row['email']; ?></p>
         </section>
     </main>
     <div class="form">
-        <p>Hey, <?php echo $_SESSION['username']; ?>!</p>
+
+        <p>Hey, <?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?>!</p>
         <p>Welcome to account settings</p>
         <p><a href="logout.php">Logout</a></p>
         <p><a href="blog.php">Blog</a></p>

@@ -24,14 +24,21 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
     $password = $_POST['password'];
     $hashed_password = hashPassword($password);
 
-    // Check if the email is already registered
+    // Check if the email and username is already registered
     $email_check_query = "SELECT * FROM users WHERE email='$email' LIMIT 1";
+    $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
     $result = mysqli_query($con, $email_check_query);
+    $result2 = mysqli_query($con, $user_check_query);
     $user = mysqli_fetch_assoc($result);
+    $user2 = mysqli_fetch_assoc($result2);
 
+    if ($user2) {
+
+        echo "<p>username already in use <a href='registration.php'>register again pls</a></p>";
+    }
     if ($user) {
         echo "<div class='form'>
-              <h3>Email already exists. Please use a different email.</h3><br/>
+              <h3>email already in use please use a different email</h3><br/>
               <p class='link'>Click here to <a href='registration.php'>register</a> again.</p>
               </div>";
     } else {

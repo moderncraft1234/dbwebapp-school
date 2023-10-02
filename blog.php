@@ -126,7 +126,7 @@ function fetchComments($post_id) {
     <div class="toolbar">
         <a href="index.php">Home</a>
         <a href="add_post.php">Add Post</a>
-            <p>logged in as <?php echo $_SESSION['username']; ?> </p>
+            <p>logged in as  <?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?> </p>
     </div>
 
     <?php
