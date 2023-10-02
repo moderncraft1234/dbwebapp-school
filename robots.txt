@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: startup.sh
+Disallow: Vagrantfile
+Disallow: README.md
+Disallow: stunnel.conf
+User-agent: *
+Allow: /
+

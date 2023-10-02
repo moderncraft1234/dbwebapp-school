@@ -62,9 +62,6 @@
         <p>Not logged in</p>
         <a href="login.php">Login</a>
         <a href="registration.php">Register</a>
-        <a href="logout.php">Logout</a>
-        <a href="dashboard.php">My Account</a>
-        <a href="blog.php">Blog</a>
 
     </div>
 

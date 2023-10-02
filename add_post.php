@@ -1,19 +1,33 @@
 <?php
 // Include your database connection
-$conn = mysqli_connect("127.0.0.1", "root","mysql","blogs");
-//include auth sesion
+$conn = mysqli_connect("127.0.0.1", "root", "mysql", "blogs");
+//include auth session
 include("auth_session.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = htmlspecialchars($_POST['title'], ENT_QUOTES, 'UTF-8');
-    $content = htmlspecialchars($_POST['content'], ENT_QUOTES, 'UTF-8');
+    $title = $_POST['title'];
+    $content = $_POST['content'];
 
-    // Insert the post into the database
-    $query = "INSERT INTO posts (title, content) VALUES ('$title', '$content')";
-    mysqli_query($conn, $query);
+    // Prepare the SQL statement using a prepared statement
+    $query = "INSERT INTO posts (title, content) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $query);
+
+    // Bind the parameters to the prepared statement
+    mysqli_stmt_bind_param($stmt, "ss", $title, $content);
+
+    // Execute the prepared statement
+    if (mysqli_stmt_execute($stmt)) {
+        // Insertion was successful
+        echo "Post added successfully!";
+    } else {
+        // Insertion failed
+        echo "Error: " . mysqli_error($conn);
+    }
+
+    // Close the statement
+    mysqli_stmt_close($stmt);
 }
 ?>
-
     <!DOCTYPE html>
         <html lang="en">
                                <head>
