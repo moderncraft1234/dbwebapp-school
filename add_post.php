@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Execute the prepared statement
     if (mysqli_stmt_execute($stmt)) {
         // Insertion was successful
-        echo "Post added successfully!";
+        echo "<p>you posted</p>";
     } else {
         // Insertion failed
         echo "Error: " . mysqli_error($conn);
@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Close the statement
     mysqli_stmt_close($stmt);
+
+    // redirect to blog after post
+   header("Location: blog.php");
+
 }
 ?>
     <!DOCTYPE html>

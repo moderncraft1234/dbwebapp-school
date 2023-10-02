@@ -103,8 +103,8 @@ $username = $_SESSION['username'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the new username and email from the form
-    $newUsername = $_POST['new_username'];
-    $newEmail = $_POST['new_email'];
+    $newUsername = mysqli_real_escape_string($conn, $_POST['new_username']);
+    $newEmail = mysqli_real_escape_string($conn, $_POST['new_email']);
 
     // Check if the new username or email is already in use
     $checkUsernameQuery = "SELECT * FROM users WHERE username = '$newUsername' AND username != '$username' LIMIT 1";
