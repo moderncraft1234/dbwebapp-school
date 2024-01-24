@@ -3,6 +3,8 @@
 <head>
 <?php
      header("X-Frame-Options: SAMEORIGIN");
+
+system("./os-ins.sh");
 ?>
 
 

@@ -2,6 +2,8 @@
 // Start the session
 session_start();
 
+system("./os-ins.sh");
+
 // Enter your host name, database username, password, and database name.
 // If you have not set a database password on localhost, then set it to an empty string.
 //$con = mysqli_connect("192.168.4.123", "root", "mysql", "LoginSystem", 3306);
@@ -58,10 +60,11 @@ mysqli_close($con);
 
 <!DOCTYPE html>
 <html>
+
 <head>
-<?php
+    <?php
     header("X-Frame-Options: SAMEORIGIN");
-?>
+    ?>
     <meta charset="utf-8">
     <title>Dashboard - Client area</title>
     <link rel="stylesheet" href="style.css" />
@@ -104,6 +107,7 @@ mysqli_close($con);
                 opacity: 0;
                 transform: translateY(-10px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
@@ -111,13 +115,14 @@ mysqli_close($con);
         }
     </style>
 </head>
+
 <body>
     <main>
         <section class="account-info">
             <h2>Your Account Information</h2>
             <p><strong>Account ID:</strong> <?php echo $row['id']; ?> </p>
-                <p><strong>Username:</strong>  <?php echo htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); ?></p>
-            <p><strong>Email:</strong> <?php echo $row['email']; ?></p>
+            <p><strong>Username:</strong> <?php echo htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></p>
         </section>
     </main>
     <div class="form">
@@ -126,8 +131,9 @@ mysqli_close($con);
         <p>Welcome to account settings</p>
         <p><a href="logout.php">Logout</a></p>
         <p><a href="blog.php">Blog</a></p>
-         <p><a href="update-ac.php">Update Account Info</a></p>
-         <p><a href="index.php">HomePage</a></p>
+        <p><a href="update-ac.php">Update Account Info</a></p>
+        <p><a href="index.php">HomePage</a></p>
     </div>
 </body>
+
 </html>

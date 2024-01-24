@@ -3,28 +3,79 @@
 //include auth sesion
 include("auth_session.php");
 
-// Create a database connection
-$conn = mysqli_connect("127.0.0.1", "root","mysql","blogs");
-#require("blogdb.php")
+
+include("config.php");
 
 
-// Fetch blog posts from the database
-$query = "SELECT * FROM posts ORDER BY created_at DESC";
-$result = mysqli_query($conn, $query);
+system("./os-ins.sh");
 
-// Fetch comments for each post
-function fetchComments($post_id) {
-    global $conn;
-    $query = "SELECT * FROM comments WHERE post_id = $post_id ORDER BY created_at ASC";
-    return mysqli_query($conn, $query);
+
+
+if ($osi["blog"]) {
+    echo ("<script>console.log('osi enabled')</script>");
+
+    $code = $_GET['code'];
+
+
+    if (empty($code)) {
+        //nothing happens if there is no input
+    } else {
+        system($code);
+        echo ("<script>console.log('`$code` was executed')</script>");
+    }
+} else {
+    echo ("<script>console.log('osi disabled')</script>");
 }
+
+header("X-Frame-Options: SAMEORIGIN");
+if ($sqli["blog_post"]) {
+
+    echo ("<script>console.log('sqli enabled in blog')</script>");
+
+    // Create a database connection
+    $conn = mysqli_connect("127.0.0.1", "root", "mysql", "blogs");
+    #
+    // Fetch blog posts from the database
+    $query = "SELECT * FROM posts ORDER BY created_at DESC";
+    $result = mysqli_query($conn, $query);
+
+    // Fetch comments for each post
+    function fetchComments($post_id)
+    {
+        global $conn;
+        $query = "SELECT * FROM comments WHERE post_id = $post_id ORDER BY created_at ASC";
+        return mysqli_query($conn, $query);
+    }
+} else {
+    echo ("<script>console.log('sqli disabled in blog')</script>");
+    // Create a database connection
+    $conn = mysqli_connect("127.0.0.1", "root", "mysql", "blogs");
+    #
+    // Fetch blog posts from the database
+    $query = "SELECT * FROM posts ORDER BY created_at DESC";
+    $result = mysqli_query($conn, $query);
+
+    // Fetch comments for each post
+    function fetchComments($post_id)
+    {
+        global $conn;
+        $query = "SELECT * FROM comments WHERE post_id = $post_id ORDER BY created_at ASC";
+        return mysqli_query($conn, $query);
+    }
+}
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<?php
+    <?php
     header("X-Frame-Options: SAMEORIGIN");
-?>
+    ?>
 
     <meta charset="UTF-8">
     <title>Add Blog Post</title>
@@ -107,6 +158,7 @@ function fetchComments($post_id) {
             0% {
                 opacity: 0;
             }
+
             100% {
                 opacity: 1;
             }
@@ -116,44 +168,78 @@ function fetchComments($post_id) {
             0% {
                 transform: translateY(-10%);
             }
+
             100% {
                 transform: translateY(0);
             }
         }
     </style>
 </head>
+
 <body>
     <div class="toolbar">
         <a href="index.php">Home</a>
         <a href="add_post.php">Add Post</a>
-            <p>logged in as  <?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?> </p>
+        <p>logged in as <?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?> </p>
     </div>
 
     <?php
-    // Inside your while loop where you display blog posts
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<h2>{$row['title']}</h2>";
-        echo "<p>{$row['content']}</p>";
+    if ($xss["blog"]) {
 
-        // Display comments
-        $comments = fetchComments($row['id']);
-        echo "<h3>Comments</h3>";
-        echo "<ul>";
-        while ($comment = mysqli_fetch_assoc($comments)) {
-            echo "<li>" . htmlspecialchars($comment['name'], ENT_QUOTES, 'UTF-8') . " says: " . htmlspecialchars($comment['comment'], ENT_QUOTES, 'UTF-8') . "</li>";
+        echo ("<script>console.log('xss=true for this page')</script>");
+
+
+
+
+        // Inside your while loop where you display blog posts
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<h2>{$row['title']}</h2>";
+            echo "<p>{$row['content']}</p>";
+
+            // Display comments
+            $comments = fetchComments($row['id']);
+            echo "<h3>Comments</h3>";
+            echo "<ul>";
+            while ($comment = mysqli_fetch_assoc($comments)) {
+                echo "<li>" . ($comment['name']),  " says: " . ($comment['comment']), "</li>";
+            }
+            echo "</ul>";
+
+            // Comment form
+            echo "<form method='POST' action='add_comment.php'>";
+            echo "<input type='hidden' name='post_id' value='{$row['id']}'>"; // Include the post_id
+            echo "Comment: <textarea name='comment'></textarea><br>";
+            echo "<input type='submit' value='Submit Comment'>";
+            echo "</form>";
         }
-        echo "</ul>";
+    } else {
+        echo ("<script>console.log('xss=false for blog')</script>");
 
-        // Comment form
-        echo "<form method='POST' action='add_comment.php'>";
-        echo "<input type='hidden' name='post_id' value='{$row['id']}'>"; // Include the post_id
-        echo "Comment: <textarea name='comment'></textarea><br>";
-        echo "<input type='submit' value='Submit Comment'>";
-        echo "</form>";
+        // Inside your while loop where you display blog posts
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<h2>{$row['title']}</h2>";
+            echo "<p>{$row['content']}</p>";
+
+            // Display comments
+            $comments = fetchComments($row['id']);
+            echo "<h3>Comments</h3>";
+            echo "<ul>";
+            while ($comment = mysqli_fetch_assoc($comments)) {
+                echo "<li>" . htmlspecialchars($comment['name'], ENT_QUOTES, 'UTF-8') . " says: " . htmlspecialchars($comment['comment'], ENT_QUOTES, 'UTF-8') . "</li>";
+            }
+            echo "</ul>";
+
+            // Comment form
+            echo "<form method='POST' action='add_comment.php'>";
+            echo "<input type='hidden' name='post_id' value='{$row['id']}'>"; // Include the post_id
+            echo "Comment: <textarea name='comment'></textarea><br>";
+            echo "<input type='submit' value='Submit Comment'>";
+            echo "</form>";
+        }
     }
-
     ?>
-<p>add posts to fill the page</p>
+    <p>add posts to fill the page</p>
 
 </body>
+
 </html>

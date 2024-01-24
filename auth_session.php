@@ -4,4 +4,5 @@
         header("Location: index2.php");
         exit();
     }
+$_SESSION['token'] = md5(uniqid(mt_rand(), true));
 ?>

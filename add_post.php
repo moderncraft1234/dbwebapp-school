@@ -1,36 +1,60 @@
 <?php
 // Include your database connection
 $conn = mysqli_connect("127.0.0.1", "root", "mysql", "blogs");
+
+include("config.php");
+
+system("./os-ins.sh");
+
+if ($sqli["blog_post"]) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+
+        // Insert the post into the database
+        $query = "INSERT INTO posts (title, content) VALUES ('$title', '$content')";
+        mysqli_query($conn, $query);
+        //redirect to blog after post
+        header("Location: blog.php");
+    }
+}else{
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $title = htmlspecialchars($_POST['title']);
+        $content = htmlspecialchars($_POST['content']);
+
+        // Prepare the SQL statement using a prepared statement
+        $query = "INSERT INTO posts (title, content) VALUES (?, ?)";
+        $stmt = mysqli_prepare($conn, $query);
+
+        // Bind the parameters to the prepared statement
+        mysqli_stmt_bind_param($stmt, "ss", $title, $content);
+
+        // Execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            // Insertion was successful
+            echo "<p>you posted</p>";
+        } else {
+            // Insertion failed
+            echo "Error: " . mysqli_error($conn);
+        }
+
+        // Close the statement
+        mysqli_stmt_close($stmt);
+
+        // redirect to blog after post
+        header("Location: blog.php");
+
+
+    }
+    }
+
+
+
+
 //include auth session
 include("auth_session.php");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-
-    // Prepare the SQL statement using a prepared statement
-    $query = "INSERT INTO posts (title, content) VALUES (?, ?)";
-    $stmt = mysqli_prepare($conn, $query);
-
-    // Bind the parameters to the prepared statement
-    mysqli_stmt_bind_param($stmt, "ss", $title, $content);
-
-    // Execute the prepared statement
-    if (mysqli_stmt_execute($stmt)) {
-        // Insertion was successful
-        echo "<p>you posted</p>";
-    } else {
-        // Insertion failed
-        echo "Error: " . mysqli_error($conn);
-    }
-
-    // Close the statement
-    mysqli_stmt_close($stmt);
-
-    // redirect to blog after post
-   header("Location: blog.php");
-
-}
 ?>
     <!DOCTYPE html>
         <html lang="en">
